@@ -47,9 +47,6 @@ class FunctionTutorial(QMainWindow):
         # Вкладка "Примеры"
         self.create_examples_tab()
         
-        # Вкладка "Практика"
-        self.create_practice_tab()
-        
         splitter.addWidget(self.tab_widget)
         
         # Область для вывода результатов
@@ -70,24 +67,6 @@ class FunctionTutorial(QMainWindow):
         splitter.setSizes([500, 200])
         
         main_layout.addWidget(splitter)
-        
-        # Кнопка очистки результатов
-        clear_button = QPushButton('Очистить результаты')
-        clear_button.clicked.connect(self.clear_results)
-        clear_button.setStyleSheet("""
-            QPushButton {
-                background-color: #e74c3c;
-                color: white;
-                border: none;
-                padding: 8px;
-                border-radius: 4px;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: #c0392b;
-            }
-        """)
-        main_layout.addWidget(clear_button)
         
         self.setStyleSheet("""
             QMainWindow {
@@ -408,109 +387,6 @@ print(f"Первые 10 чисел Фибоначчи: {числа_фибона�
         
         layout.addWidget(scroll)
         self.tab_widget.addTab(widget, "Примеры")
-    
-    def create_practice_tab(self):
-        widget = QWidget()
-        layout = QVBoxLayout(widget)
-        
-        content = """
-        <h2 style="color: #2c3e50;">💻 Практика</h2>
-        
-        <h3 style="color: #3498db;">Задача 1: Калькулятор</h3>
-        <p>Создайте функцию калькулятор, которая принимает два числа и операцию (+, -, *, /), 
-        а возвращает результат операции.</p>
-        <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
-def калькулятор(a, b, операция):
-    # Ваш код здесь
-    pass
-
-# Тестирование
-print(калькулятор(10, 5, '+'))  # Должно вывести 15
-print(калькулятор(10, 5, '-'))  # Должно вывести 5
-print(калькулятор(10, 5, '*'))  # Должно вывести 50
-print(калькулятор(10, 5, '/'))  # Должно вывести 2.0</pre>
-        
-        <h3 style="color: #3498db;">Задача 2: Проверка палиндрома</h3>
-        <p>Создайте функцию, которая проверяет, является ли строка палиндромом 
-        (читается одинаково слева направо и справа налево).</p>
-        <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
-def это_палиндром(строка):
-    # Ваш код здесь
-    pass
-
-# Тестирование
-print(это_палиндром("топот"))      # True
-print(это_палиндром("Python"))     # False
-print(это_палиндром("А роза упала на лапу Азора"))  # True</pre>
-        
-        <h3 style="color: #3498db;">Задача 3: Конвертер температур</h3>
-        <p>Создайте функцию для конвертации температуры между Цельсием и Фаренгейтом.</p>
-        <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
-def конвертер_температуры(температура, из_шкалы, в_шкалу):
-    # Формулы:
-    # C -> F: F = C * 9/5 + 32
-    # F -> C: C = (F - 32) * 5/9
-    pass
-
-# Тестирование
-print(конвертер_температуры(100, 'C', 'F'))  # 212
-print(конвертер_температуры(32, 'F', 'C'))  # 0</pre>
-        
-        <h3 style="color: #3498db;">Ваша собственная функция:</h3>
-        <p>Попробуйте написать и протестировать свою функцию:</p>
-        <textarea id="custom_code" style="width: 100%; height: 150px; font-family: 'Courier New'; padding: 10px;" 
-                  placeholder="def моя_функция():
-    # Ваш код здесь
-    pass
-
-# Тестирование
-print(моя_функция())"></textarea>
-        <button onclick="app.execute_custom_code()">Запустить свой код</button>
-        """
-        
-        label = QLabel(content)
-        label.setWordWrap(True)
-        label.setTextFormat(Qt.RichText)
-        
-        scroll = QScrollArea()
-        scroll.setWidget(label)
-        scroll.setWidgetResizable(True)
-        
-        layout.addWidget(scroll)
-        self.tab_widget.addTab(widget, "Практика")
-    
-    def execute_code(self, code):
-        """Выполняет код и выводит результат"""
-        try:
-            # Сохраняем оригинальный print
-            import sys
-            from io import StringIO
-            
-            # Перехватываем вывод
-            old_stdout = sys.stdout
-            redirected_output = sys.stdout = StringIO()
-            
-            # Выполняем код
-            exec(code)
-            
-            # Получаем вывод
-            sys.stdout = old_stdout
-            output = redirected_output.getvalue()
-            
-            # Выводим результат
-            self.result_area.append("=" * 50)
-            self.result_area.append("Код выполнен успешно!")
-            self.result_area.append("Вывод:")
-            self.result_area.append(output)
-            
-        except Exception as e:
-            self.result_area.append("=" * 50)
-            self.result_area.append(f"Ошибка: {str(e)}")
-    
-    def clear_results(self):
-        """Очищает область результатов"""
-        self.result_area.clear()
-
 
 def main():
     app = QApplication(sys.argv)
