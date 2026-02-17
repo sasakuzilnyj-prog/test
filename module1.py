@@ -41,6 +41,9 @@ class FunctionTutorial(QMainWindow):
         # Вкладка "Создание функций"
         self.create_creation_tab()
         
+        # Вкладка "Аргументы функций" - ИСПРАВЛЕНО: был неправильный отступ
+        self.create_arguments_tab()
+        
         # Вкладка "Применение функций"
         self.create_usage_tab()
         
@@ -111,7 +114,7 @@ class FunctionTutorial(QMainWindow):
         
         <h3 style="color: #3498db;">Структура функции:</h3>
         <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
-def имя_функции (аргументы):
+def имя_функции(аргументы):
     тело_функции
     return результат</pre>
         
@@ -222,9 +225,154 @@ def modify_cake():
     cake_count = 15
 
 modify_cake()
-print(modify_cake)  # Вывод: 15</pre>
+print(cake_count)  # Вывод: 15  <!-- ИСПРАВЛЕНО: было print(modify_cake) -->
+        </pre>
+        """
         
-        <h3 style="color: #3498db;">Функции можно передавать другим функциям</h3>
+        label = QLabel(content)
+        label.setWordWrap(True)
+        label.setTextFormat(Qt.RichText)
+        
+        scroll = QScrollArea()
+        scroll.setWidget(label)
+        scroll.setWidgetResizable(True)
+        
+        layout.addWidget(scroll)
+        self.tab_widget.addTab(widget, "Область видимости функций")
+    
+    # ИСПРАВЛЕНО: название метода и отступ
+    def create_arguments_tab(self):
+        widget = QWidget()
+        layout = QVBoxLayout(widget)
+        
+        content = """
+        <h2 style="color: #2c3e50;">🚀 Аргументы функций</h2>
+        
+        <h3 style="color: #3498db;">Типы аргументов в Python:</h3>
+        
+        <h4>1. Позиционные аргументы (positional arguments):</h4>
+        <div>Аргументы, которые передаются в функцию в правильном порядке:</div>
+        <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
+def greet(name, greeting):
+    return f"{greeting}, {name}!"
+
+print(greet("Alice", "Hello"))  # Hello, Alice!</pre>
+        
+        <h4>2. Именованные аргументы (keyword arguments):</h4>
+        <div>Аргументы, которые передаются с указанием имени параметра:</div>
+        <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
+def describe_pet(name, animal_type="dog"):
+    print(f"I have a {animal_type} named {name}")
+
+describe_pet(animal_type="cat", name="Whiskers")</pre>
+        
+        <h4>3. Аргументы по умолчанию (default arguments):</h4>
+        <div>Параметры, которые имеют значение по умолчанию:</div>
+        <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
+def power(base, exponent=2):
+    return base ** exponent
+
+print(power(3))    # 9 (3 в квадрате)
+print(power(3, 4)) # 81 (3 в 4-й степени)</pre>
+        
+        <h4>4. Произвольное количество аргументов (*args):</h4>
+        <div>Позволяет передавать любое количество позиционных аргументов:</div>
+        <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
+def sum_all(*numbers):
+    return sum(numbers)
+
+print(sum_all(1, 2, 3))        # 6
+print(sum_all(1, 2, 3, 4, 5))  # 15</pre>
+        
+        <h4>5. Произвольное количество именованных аргументов (**kwargs):</h4>
+        <div>Позволяет передавать любое количество именованных аргументов:</div>
+        <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
+def print_info(**info):
+    for key, value in info.items():
+        print(f"{key}: {value}")
+
+print_info(name="John", age=30, city="New York")</pre>
+        """
+        
+        label = QLabel(content)
+        label.setWordWrap(True)
+        label.setTextFormat(Qt.RichText)
+        
+        scroll = QScrollArea()
+        scroll.setWidget(label)
+        scroll.setWidgetResizable(True)
+        
+        layout.addWidget(scroll)
+        self.tab_widget.addTab(widget, "Аргументы функций")
+    
+    def create_usage_tab(self):
+        widget = QWidget()
+        layout = QVBoxLayout(widget)
+        
+        content = """
+        <h2 style="color: #2c3e50;">🚀 Применение функций</h2>
+        
+        <h3 style="color: #3498db;">1. Параметры по умолчанию:</h3>
+        <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
+def приветствие(имя="Гость"):
+    '''Функция с параметром по умолчанию'''
+    print(f"Добро пожаловать, {имя}!")
+
+# Разные способы вызова
+приветствие()           # Используется значение по умолчанию
+приветствие("Алексей")  # Передается свое значение</pre>
+        
+        <h3 style="color: #3498db;">2. Именованные аргументы:</h3>
+        <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
+def информация_о_человеке(имя, возраст, город):
+    '''Вывод информации о человеке'''
+    print(f"Имя: {имя}")
+    print(f"Возраст: {возраст}")
+    print(f"Город: {город}")
+
+# Можно передавать аргументы в любом порядке, если указывать имена
+информация_о_человеке(возраст=30, город="Москва", имя="Петр")</pre>
+        
+        <h3 style="color: #3498db;">3. Произвольное количество аргументов (*args):</h3>
+        <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
+def сумма_чисел(*числа):
+    '''Суммирует произвольное количество чисел'''
+    сумма = 0
+    for число in числа:
+        сумма += число
+    return сумма
+
+# Можно передавать разное количество аргументов
+print(сумма_чисел(1, 2, 3))
+print(сумма_чисел(10, 20, 30, 40, 50))</pre>
+        
+        <h3 style="color: #3498db;">4. Произвольное количество именованных аргументов (**kwargs):</h3>
+        <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
+def информация(**детали):
+    '''Принимает произвольные именованные аргументы'''
+    for ключ, значение in детали.items():
+        print(f"{ключ}: {значение}")
+
+информация(имя="Анна", возраст=25, профессия="инженер")
+информация(студент="Иван", курс=3, университет="МГУ")</pre>
+        
+        <h3 style="color: #3498db;">5. Функции как объекты:</h3>
+        <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
+def приветствие(имя):
+    return f"Привет, {имя}!"
+
+def прощание(имя):
+    return f"До свидания, {имя}!"
+
+# Функция может принимать другую функцию как параметр
+def обработка_имени(имя, функция):
+    return функция(имя)
+
+# Использование
+print(обработка_имени("Мария", приветствие))
+print(обработка_имени("Мария", прощание))</pre>
+        
+                <h3 style="color: #3498db;">Функции можно передавать другим функциям</h3>
         <div>
         Поскольку функции являются объектами, их можно передавать в качестве аргументов другим функциям. Вот функция greet, которая форматирует строку greeting, используя переданный ей объект функции, а затем выводит ее:
         </div>
@@ -294,90 +442,7 @@ AttributeError: "'function' object has no attribute 'whisper'"
     else:
         return whisper
         </pre>
-        """
         
-        label = QLabel(content)
-        label.setWordWrap(True)
-        label.setTextFormat(Qt.RichText)
-        
-        scroll = QScrollArea()
-        scroll.setWidget(label)
-        scroll.setWidgetResizable(True)
-        
-        layout.addWidget(scroll)
-        self.tab_widget.addTab(widget, "Область видимости функций")
-    
-    def create_usage_tab(self):
-        widget = QWidget()
-        layout = QVBoxLayout(widget)
-        
-        content = """
-        <h2 style="color: #2c3e50;">🚀 Применение функций</h2>
-        
-        <h3 style="color: #3498db;">1. Параметры по умолчанию:</h3>
-        <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
-def приветствие(имя="Гость"):
-    '''Функция с параметром по умолчанию'''
-    print(f"Добро пожаловать, {имя}!")
-
-# Разные способы вызова
-приветствие()           # Используется значение по умолчанию
-приветствие("Алексей")  # Передается свое значение</pre>
-        <button onclick="app.execute_code('def приветствие(имя=\\\"Гость\\\"):\\n    print(f\\\"Добро пожаловать, {имя}!\\\")\\n\\nприветствие()\\nприветствие(\\\"Алексей\\\")')">Запустить пример</button>
-        
-        <h3 style="color: #3498db;">2. Именованные аргументы:</h3>
-        <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
-def информация_о_человеке(имя, возраст, город):
-    '''Вывод информации о человеке'''
-    print(f"Имя: {имя}")
-    print(f"Возраст: {возраст}")
-    print(f"Город: {город}")
-
-# Можно передавать аргументы в любом порядке, если указывать имена
-информация_о_человеке(возраст=30, город="Москва", имя="Петр")</pre>
-        <button onclick="app.execute_code('def информация_о_человеке(имя, возраст, город):\\n    print(f\\\"Имя: {имя}\\\")\\n    print(f\\\"Возраст: {возраст}\\\")\\n    print(f\\\"Город: {город}\\\")\\n\\nинформация_о_человеке(возраст=30, город=\\\"Москва\\\", имя=\\\"Петр\\\")')">Запустить пример</button>
-        
-        <h3 style="color: #3498db;">3. Произвольное количество аргументов (*args):</h3>
-        <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
-def сумма_чисел(*числа):
-    '''Суммирует произвольное количество чисел'''
-    сумма = 0
-    for число in числа:
-        сумма += число
-    return сумма
-
-# Можно передавать разное количество аргументов
-print(сумма_чисел(1, 2, 3))
-print(сумма_чисел(10, 20, 30, 40, 50))</pre>
-        <button onclick="app.execute_code('def сумма_чисел(*числа):\\n    сумма = 0\\n    for число in числа:\\n        сумма += число\\n    return сумма\\n\\nprint(сумма_чисел(1, 2, 3))\\nprint(сумма_чисел(10, 20, 30, 40, 50))')">Запустить пример</button>
-        
-        <h3 style="color: #3498db;">4. Произвольное количество именованных аргументов (**kwargs):</h3>
-        <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
-def информация(**детали):
-    '''Принимает произвольные именованные аргументы'''
-    for ключ, значение in детали.items():
-        print(f"{ключ}: {значение}")
-
-информация(имя="Анна", возраст=25, профессия="инженер")
-информация(студент="Иван", курс=3, университет="МГУ")</pre>
-        <button onclick="app.execute_code('def информация(**детали):\\n    for ключ, значение in детали.items():\\n        print(f\\\"{ключ}: {значение}\\\")\\n\\nинформация(имя=\\\"Анна\\\", возраст=25, профессия=\\\"инженер\\\")\\nинформация(студент=\\\"Иван\\\", курс=3, университет=\\\"МГУ\\\")')">Запустить пример</button>
-        
-        <h3 style="color: #3498db;">5. Функции как объекты:</h3>
-        <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
-def приветствие(имя):
-    return f"Привет, {имя}!"
-
-def прощание(имя):
-    return f"До свидания, {имя}!"
-
-# Функция может принимать другую функцию как параметр
-def обработка_имени(имя, функция):
-    return функция(имя)
-
-# Использование
-print(обработка_имени("Мария", приветствие))
-print(обработка_имени("Мария", прощание))</pre>
-        <button onclick="app.execute_code('def приветствие(имя):\\n    return f\\\"Привет, {имя}!\\\"\\n\\ndef прощание(имя):\\n    return f\\\"До свидания, {имя}!\\\"\\n\\ndef обработка_имени(имя, функция):\\n    return функция(имя)\\n\\nprint(обработка_имени(\\\"Мария\\\", приветствие))\\nprint(обработка_имени(\\\"Мария\\\", прощание))')">Запустить пример</button>
         """
         
         label = QLabel(content)
@@ -391,6 +456,7 @@ print(обработка_имени("Мария", прощание))</pre>
         layout.addWidget(scroll)
         self.tab_widget.addTab(widget, "Применение функций")
     
+    # ИСПРАВЛЕНО: отступ метода
     def create_examples_tab(self):
         widget = QWidget()
         layout = QVBoxLayout(widget)
@@ -418,7 +484,6 @@ def факториал(число):
 # Использование
 print(f"Площадь круга с радиусом 5: {площадь_круга(5):.2f}")
 print(f"Факториал 5: {факториал(5)}")</pre>
-        <button onclick="app.execute_code('import math\\n\\ndef площадь_круга(радиус):\\n    return math.pi * радиус ** 2\\n\\ndef факториал(число):\\n    if число == 0:\\n        return 1\\n    результат = 1\\n    for i in range(1, число + 1):\\n        результат *= i\\n    return результат\\n\\nprint(f\\\"Площадь круга с радиусом 5: {площадь_круга(5):.2f}\\\")\\nprint(f\\\"Факториал 5: {факториал(5)}\\\")')">Запустить пример</button>
         
         <h3 style="color: #3498db;">2. Работа со строками:</h3>
         <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
@@ -438,7 +503,6 @@ def статистика_текста(текст):
 print(f"Обратная строка: {обратная_строка(текст)}")
 слова, символы, буквы = статистика_текста(текст)
 print(f"Слов: {слова}, Символов: {символы}, Букв: {буквы}")</pre>
-        <button onclick="app.execute_code('def обратная_строка(текст):\\n    return текст[::-1]\\n\\ndef статистика_текста(текст):\\n    слов = len(текст.split())\\n    символов = len(текст)\\n    букв = sum(1 for символ in текст if символ.isalpha())\\n    return слов, символов, букв\\n\\nтекст = \\\"Python - прекрасный язык программирования\\\"\\nprint(f\\\"Обратная строка: {обратная_строка(текст)}\\\")\\nслова, символы, буквы = статистика_текста(текст)\\nprint(f\\\"Слов: {слова}, Символов: {символы}, Букв: {буквы}\\\")')">Запустить пример</button>
         
         <h3 style="color: #3498db;">3. Работа со списками:</h3>
         <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
@@ -460,7 +524,6 @@ def поиск_максимума(список):
 числа = [1, 5, 3, 8, 2, 7]
 print(f"Числа больше 3: {фильтрация_чисел(числа, 3)}")
 print(f"Максимальное число: {поиск_максимума(числа)}")</pre>
-        <button onclick="app.execute_code('def фильтрация_чисел(числа, порог):\\n    return [число for число in числа if число > порог]\\n\\ndef поиск_максимума(список):\\n    if not список:\\n        return None\\n    максимум = список[0]\\n    for элемент in список[1:]:\\n        if элемент > максимум:\\n            максимум = элемент\\n    return максимум\\n\\nчисла = [1, 5, 3, 8, 2, 7]\\nprint(f\\\"Числа больше 3: {фильтрация_чисел(числа, 3)}\\\")\\nprint(f\\\"Максимальное число: {поиск_максимума(числа)}\\\")')">Запустить пример</button>
         
         <h3 style="color: #3498db;">4. Рекурсивная функция:</h3>
         <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
@@ -479,7 +542,19 @@ def числа_фибоначчи(количество):
     return последовательность
 
 print(f"Первые 10 чисел Фибоначчи: {числа_фибоначчи(10)}")</pre>
-        <button onclick="app.execute_code('def числа_фибоначчи(количество):\\n    if количество <= 0:\\n        return []\\n    elif количество == 1:\\n        return [0]\\n    elif количество == 2:\\n        return [0, 1]\\n    последовательность = числа_фибоначчи(количество - 1)\\n    следующий = последовательность[-1] + последовательность[-2]\\n    последовательность.append(следующий)\\n    return последовательность\\n\\nprint(f\\\"Первые 10 чисел Фибоначчи: {числа_фибоначчи(10)}\\\")')">Запустить пример</button>
+        
+        <h3 style="color: #3498db;">5. Функция с возвратом:</h3>
+        
+<div>В Python ключевое слово return используется для возврата значения из функции. <br>
+Полученное значение можно дальше использовать в программе.<br>
+В примере ниже функция add принимает два аргумента a и b, складывает их и с помощью return возвращает сумму a + b:</div>
+<pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
+def add(a, b):
+    return a + b
+
+result = add(3, 5)
+print(result)  # Вывод: 8</pre>
+<p>Если не использовать в функции ключевое слово return, она по умолчанию вернёт None.</p>
         """
         
         label = QLabel(content)
